@@ -2,3 +2,9 @@ Flask
 pandas
 joblib
 gunicorn
+numpy
+scipy
+scikit-learn
+imbalanced-learn
+shap
+statsmodels
