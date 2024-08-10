@@ -1,21 +1,21 @@
-from flask import Blueprint, Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify, render_template
 import joblib
 import pandas as pd
 import traceback
 
-main = Blueprint('main', __name__)
+app = Flask(__name__)
 
-model = joblib.load('app/best_model.pkl')
+model = joblib.load('models/best_model.pkl')
 
 REQUIRED_FEATURES = ["gender", "ever_married", "work_type", "residence_type", 
                      "smoking_status", "age", "bmi", "avg_glucose_level", 
                      "hypertension", "heart_disease"]
 
-@main.route('/')
+@app.route('/')
 def home():
     return render_template('index.html')
 
-@main.route('/predict', methods=['POST'])
+@app.route('/predict', methods=['POST'])
 def predict():
     try:
         data = request.json
@@ -49,3 +49,6 @@ def predict():
         
         # Return a 500 error with the exception message
         return jsonify({"error": "Internal server error", "message": str(e)}), 500
+
+if __name__ == '__main__':
+  app.run(port=5000)
